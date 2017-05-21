@@ -24,49 +24,49 @@ def main(argv):
     try:
         opts,argv = getopt.getopt(argv,":h:i:e:s:o:c:E:t:p:g:P:m:l:",['help','[outFile]','code','[shapeFile]','start','end','[tr]'])
     except getopt.GetoptError:
-        print 'error in parameter for GFSDownload. type GFSDownload.py -help for more detail on use '
+        print('error in parameter for GFSDownload. type GFSDownload.py -help for more detail on use ')
         sys.exit(2)
     
     for opt, arg in opts:
         if opt == '-h':
-            print 'GFSDownload.py  '
-            print '    [mandatory] : ',
-            print '        --code <GFSCode>'
-            print '        --init <dateStart YYYY-MM-DD>'
-            print '        --end <dateEnd YYYY-MM-DD>'
-            print '        --shapefile <shapefile> OU -Extend < xmin,ymax,xmax,ymin>'
-            print '    [optional] :'
-            print '        --level <GFS Level> (default surface)'
-            print '        --step <GFS Step> (default 3,6,9,12)'
-            print '        --grid <GFS Grid> (default 0.75)'
-            print '        --outfile <outfolder> (default /home/user/GFS)'
-            print '        --proxy <proxy : True/False> (default False)'
-            print '        --mode <mode : analyse/forcast/cycleforecast> (default analyse)'
-            print ''
-            print 'EXAMPLES'
-            print '--temperature on a shapefile'
-            print 'python GFSDownload.py -c PRES -i 2014-01-01 -e 2014-01-02 -s PATH_TO_SHAPE'
-            print '--pressure on a area'
-            print 'python GFSDownload.py -c 134 -i 2014-01-01 -e 2014-01-02 -E xmin,ymax,xmax,ymin'
-            print ''
-            print ' CODE PARAMETERS'
-            print 'total precipitation  :  APCP [m of water]'
-            print '2 metre temperature  :  TMP [K]'
-            print 'maximum 2m temperature since last post-processing step : TMAX [K]'
-            print 'minimum 2m temperature since last post-processing step : TMIN [K]'
-            print 'surface pressure : PRES [Pa]'
-            print '2 metre dewpoint : DPT [K]'
-            print '10 metre eastward wind component UGRD [m s-1]'
-            print '10 metre northward wind component VGRD [m s-1]'
-            print '...'
-            print ''
-            print ' LEVEL PARAMETERS'
-            print '2_m_above_ground'
-            print '10_m_above_ground'
-            print '3000-0_m_above_ground'
-            print '300_mb'
-            print '...'
-            print 'see http://www.nco.ncep.noaa.gov/pmb/products/gfs/ for product description'
+            print('GFSDownload.py  ')
+            print('    [mandatory] : ', end=' ')
+            print('        --code <GFSCode>')
+            print('        --init <dateStart YYYY-MM-DD>')
+            print('        --end <dateEnd YYYY-MM-DD>')
+            print('        --shapefile <shapefile> OU -Extend < xmin,ymax,xmax,ymin>')
+            print('    [optional] :')
+            print('        --level <GFS Level> (default surface)')
+            print('        --step <GFS Step> (default 3,6,9,12)')
+            print('        --grid <GFS Grid> (default 0.75)')
+            print('        --outfile <outfolder> (default /home/user/GFS)')
+            print('        --proxy <proxy : True/False> (default False)')
+            print('        --mode <mode : analyse/forcast/cycleforecast> (default analyse)')
+            print('')
+            print('EXAMPLES')
+            print('--temperature on a shapefile')
+            print('python GFSDownload.py -c PRES -i 2014-01-01 -e 2014-01-02 -s PATH_TO_SHAPE')
+            print('--pressure on a area')
+            print('python GFSDownload.py -c 134 -i 2014-01-01 -e 2014-01-02 -E xmin,ymax,xmax,ymin')
+            print('')
+            print(' CODE PARAMETERS')
+            print('total precipitation  :  APCP [m of water]')
+            print('2 metre temperature  :  TMP [K]')
+            print('maximum 2m temperature since last post-processing step : TMAX [K]')
+            print('minimum 2m temperature since last post-processing step : TMIN [K]')
+            print('surface pressure : PRES [Pa]')
+            print('2 metre dewpoint : DPT [K]')
+            print('10 metre eastward wind component UGRD [m s-1]')
+            print('10 metre northward wind component VGRD [m s-1]')
+            print('...')
+            print('')
+            print(' LEVEL PARAMETERS')
+            print('2_m_above_ground')
+            print('10_m_above_ground')
+            print('3000-0_m_above_ground')
+            print('300_mb')
+            print('...')
+            print('see http://www.nco.ncep.noaa.gov/pmb/products/gfs/ for product description')
             sys.exit() 
         elif opt in ('-o','--outFolder'):
             oFolder = arg
@@ -92,22 +92,22 @@ def main(argv):
             levelList = arg.split(',')
     
     if len(sys.argv) < 8:
-        print 'GFSDownload.py'
-        print '    -c <GFSCode> -list possible-'
-        print '    -i <dateStart YYYY-MM-DD> '
-        print '    -e <dateEnd YY-MM-DD>'
-        print '    -s <shapefile> '
-        print '  or'
-        print '    -E < xmin,ymax,xmax,ymin>]'
-        print ''
-        print '    [-g <size of grid in 0.25/0.5/1/2.5> (default 0.25)]'
-        print '    [-p <GFS step parameter in 0,6,12,18> default 0,6,12,18] -list possible-'
-        print '    [-o <outfolder> (default /home/user/GFS)]'
-        print '    [-P <proxy> (default False)]'
-        print '    [-l <level> (default 2_m_above_ground)]'
-        print '    [-m <mode> (default analyse)]'
-        print ''
-        print 'For help on paramCode -help'
+        print('GFSDownload.py')
+        print('    -c <GFSCode> -list possible-')
+        print('    -i <dateStart YYYY-MM-DD> ')
+        print('    -e <dateEnd YY-MM-DD>')
+        print('    -s <shapefile> ')
+        print('  or')
+        print('    -E < xmin,ymax,xmax,ymin>]')
+        print('')
+        print('    [-g <size of grid in 0.25/0.5/1/2.5> (default 0.25)]')
+        print('    [-p <GFS step parameter in 0,6,12,18> default 0,6,12,18] -list possible-')
+        print('    [-o <outfolder> (default /home/user/GFS)]')
+        print('    [-P <proxy> (default False)]')
+        print('    [-l <level> (default 2_m_above_ground)]')
+        print('    [-m <mode> (default analyse)]')
+        print('')
+        print('For help on paramCode -help')
         sys.exit(2)
         
     try:
@@ -115,7 +115,7 @@ def main(argv):
     except NameError:
         oFolder = os.path.expanduser('~')
         oFolder = oFolder + '/GFS'
-        print "output folder not precised : downloaded GFF images on "+oFolder
+        print("output folder not precised : downloaded GFF images on "+oFolder)
     
     # verification du folder/or creation if not exists
     utils.checkForFolder(oFolder) 
@@ -185,9 +185,9 @@ def main(argv):
     
     #Proxy parameteres needed
     if(proxy):
-        login = raw_input('login proxy : ')
-        pwd = raw_input('password proxy :  : ')
-        site = raw_input('site (surf.cnes.fr) : ')
+        login = input('login proxy : ')
+        pwd = input('password proxy :  : ')
+        site = input('site (surf.cnes.fr) : ')
         os.environ["http_proxy"] = "http://%s:%s@%s:8050"%(login,pwd,site)
         os.environ["https_proxy"] = "http://%s:%s@%s:8050"%(login,pwd,site)
         
@@ -217,8 +217,8 @@ def main(argv):
         print ("")
         print ("--------------------------------------------------")
         print ("")
-        print ("Some parameters couldn't been downloaded in %s mode :" % mode )
-        print ("They have been downloaded in %s mode due to var %s" % (struct[1],','.join(struct[2])) )
+        print(("Some parameters couldn't been downloaded in %s mode :" % mode ))
+        print(("They have been downloaded in %s mode due to var %s" % (struct[1],','.join(struct[2])) ))
     
     #
     #utils.convertNETCDFtoTIF(outNETCDFFile, oFolder+'/tmp.tif')

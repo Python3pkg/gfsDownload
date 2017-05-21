@@ -16,7 +16,7 @@ import gdal
 import osr
 import numpy as np
 import subprocess
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import pygrib
 from curses.ascii import isdigit
     
@@ -289,7 +289,7 @@ def getShape(pathToImg):
 
 def GFSDownload(pathToFile,pathToOutputFile):
 
-    response = urllib2.urlopen(pathToFile)
+    response = urllib.request.urlopen(pathToFile)
     
     try:
         html = response.read()
@@ -311,7 +311,7 @@ def writeTiffFromDicoArray(DicoArray,outputImg,shape,geoparam,proj=None,format=g
     dst_ds = driver.Create(outputImg, shape[1], shape[0], len(DicoArray), format)
     
     j=1
-    for i in DicoArray.values():
+    for i in list(DicoArray.values()):
         dst_ds.GetRasterBand(j).WriteArray(i, 0)
         band = dst_ds.GetRasterBand(j)
         band.SetNoDataValue(0)
@@ -345,7 +345,7 @@ def convertGribToTiff(listeFile,listParam,listLevel,liststep,grid,startDate,endD
                     l=str(grb.level)+'_'+grb.typeOfLevel
                 else:
                     l=grb.typeOfLevel
-                if p+'_'+l not in dicoValues.keys():
+                if p+'_'+l not in list(dicoValues.keys()):
                     dicoValues[p+'_'+l]=[]
                 dicoValues[p+'_'+l].append(grb.values)
                 shape=grb.values.shape
@@ -356,14 +356,14 @@ def convertGribToTiff(listeFile,listParam,listLevel,liststep,grid,startDate,endD
     nbJour=(endDate-startDate).days+1
     #on joute des arrayNan si il manque des fichiers
     for s in range(0, (len(liststep)*nbJour-len(listeFile))):
-        for k in dicoValues.keys():
+        for k in list(dicoValues.keys()):
             dicoValues[k].append(np.full(shape, np.nan))
 
     #On écrit pour chacune des variables dans un fichier
-    for i in range(len(dicoValues.keys())-1,-1,-1):
-        dictParam=dict((k,dicoValues[dicoValues.keys()[i]][k]) for k in range(0,len(dicoValues[dicoValues.keys()[i]])))
-        sorted(dictParam.items(), key=lambda x: x[0])
-        outputImg=outFolder+'/'+dicoValues.keys()[i]+'_'+startDate.strftime('%Y%M%d')+'_'+endDate.strftime('%Y%M%d')+'.tif'
+    for i in range(len(list(dicoValues.keys()))-1,-1,-1):
+        dictParam=dict((k,dicoValues[list(dicoValues.keys())[i]][k]) for k in range(0,len(dicoValues[list(dicoValues.keys())[i]])))
+        sorted(list(dictParam.items()), key=lambda x: x[0])
+        outputImg=outFolder+'/'+list(dicoValues.keys())[i]+'_'+startDate.strftime('%Y%M%d')+'_'+endDate.strftime('%Y%M%d')+'.tif'
         writeTiffFromDicoArray(dictParam,outputImg,shape,geoparam)
     
     for f in listeFile:
